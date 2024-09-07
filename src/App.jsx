@@ -8,6 +8,7 @@ import ProviderDetail from './page/Provider/ProviderDetail';
 import AgencyDetail from './page/Agency/AgencyDetail';
 import Bill from './page/Invoice/Bill/Bill';
 import Purchase from './page/Invoice/Purchase.jsx/Purchase';
+import ManageInvoice from './page/Invoice/ManageInvoice/ManageInvoice';
 
 function App() {
   
@@ -26,6 +27,7 @@ function App() {
             <Route path='/nhacungcap/:id' element={<ProviderDetail/>} />
             <Route path='/kho/xuatkho' element={<Bill/>} /> 
              <Route path='/kho/nhapkho' element={<Purchase/>} />
+             <Route path='/kho/quanlyphieu' element={<ManageInvoice/>} />
           </Route>
         </Routes>
       

@@ -44,7 +44,7 @@ function NavBar({isActive}) {
     }
      {
         isActive==3? <InActivedButton text="Quản lý phiếu xuất/ nhập kho"/> :
-      <ActivedButton text="Quản lý phiếu xuất/ nhập kho"/>
+        <Link to='/kho/quanlyphieu'>  <ActivedButton text="Quản lý phiếu xuất/ nhập kho"/> </Link>
     }
       
     </div>

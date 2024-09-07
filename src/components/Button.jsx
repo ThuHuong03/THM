@@ -52,7 +52,7 @@ import { FaPlus } from 'react-icons/fa'
 function GreenButton({text, onClick}) {
   return (
     <button
-    // onClick={onClick}
+    onClick={onClick}
     className={` h-12 px-4 py-2 bg-custom-green text-black rounded-lg text-lg font-bold hover:bg-custom-green-200 focus:bg-custom-green-600 focus:scale-130 text-black min-w-[120px] mb-5 `}
     // {...props}
   >
