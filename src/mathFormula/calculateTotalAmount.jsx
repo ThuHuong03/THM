@@ -19,48 +19,46 @@ export const calculateTotalAmount = ({ totalAmount, zem, humidity, packaging }) 
   }
 
   // Các điều kiện tính toán
-  if (zem === 0 && humidity === 0) {
+  if (zem == 0 && humidity == 0) {
+    console.log("no", totalAmount);
     return totalAmount - packaging;
   }
 
-  if (zem === 500 && humidity === 15) {
+  if (zem == 500 && humidity == 15) {
+    console.log("no need", totalAmount);
     return totalAmount - packaging;
   }
 
   let sum = totalAmount;
 
+  const {integerPart, decimalPart} =splitNumber(humidity);
+
   if (zem >= 500) {
     if (humidity <= 15) {
       sum += ((zem - 500) / 10 + 15 - humidity) * totalAmount / 100.0;
-    } else if (humidity > 15 && bangTru[humidity]) {
-      sum += ((zem - 500) / 10 * totalAmount / 100.0) - (bangTru[humidity][getDecimalPart(humidity)] * totalAmount);
+    } else if (humidity > 15 && bangTru[integerPart]) {
+      sum += ((zem - 500) / 10 * totalAmount / 100.0) - (bangTru[integerPart][decimalPart] * totalAmount / 100.0);
     }
   } else {
     if (humidity <= 15) {
       sum -= ((500 - zem) / 10 * totalAmount / 100.0) + (15 - humidity) * totalAmount / 100.0;
-    } else if (humidity > 15 && bangTru[humidity]) {
-      sum -= ((500 - zem) / 10 * totalAmount / 100.0) + (bangTru[humidity][getDecimalPart(humidity)] * totalAmount);
+    } else if (humidity > 15 && bangTru[integerPart]) {
+      sum -= ((500 - zem) / 10 * totalAmount / 100.0) + (bangTru[integerPart][decimalPart] * totalAmount / 100.0);
     }
   }
 
   sum -= packaging; // Trừ đi chi phí đóng gói
-
-  return sum;
+  console.log(sum);
+  return splitNumber(sum).integerPart.toLocaleString('vi-VN');
 };
 
-function getDecimalPart(num) {
-  const numString = num.toString();
-  const index = numString.indexOf('.') !== -1 ? numString.indexOf('.') : numString.indexOf(',');
+function splitNumber(number) {
+  // Chuyển số thành chuỗi và tách phần trước và sau dấu phẩy
+  const [integerPart, decimalPart = '0'] = number.toString().split('.');
 
-  // Nếu không có dấu phẩy, trả về 0
-  if (index === -1) {
-    return 0;
-  }
-
-  // Trả về phần sau dấu phẩy
-  return Number(numString.slice(index + 1));
+  // Trả về phần nguyên và phần thập phân, phần thập phân phải được chuyển thành số
+  return {
+    integerPart: parseInt(integerPart, 10),
+    decimalPart: parseInt(decimalPart, 10)
+  };
 }
-
-// Ví dụ gọi hàm
-const result = calculateTotalAmount({ totalAmount: 1000, zem: 600, humidity: 20, packaging: 50 });
-console.log(result);

@@ -49,27 +49,24 @@ export default function AddPurchase ({ OnClickCancel, type, detailAmount, totalA
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
-
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-    
-    // Handle zem, humidity, or packaging changes
-    if (name === 'zem' || name === 'humidity' || name === 'packaging') {
-      const updatedTotalAmount = calculateTotalAmount({
-        totalAmount: totalAmount, 
-        zem: formData.zem, 
-        humidity: formData.humidity, 
-        packaging: formData.packaging
-      });
-      setFormData(prev => ({
-        ...prev,
-        [name]: value,
-        totalAmount: updatedTotalAmount
-      }));
-    }
-
+  
+    setFormData(prev => {
+      const updatedFormData = { ...prev, [name]: value };
+  
+      // Tính toán lại totalAmount nếu là zem, humidity, hoặc packaging
+      if (name === 'zem' || name === 'humidity' || name === 'packaging') {
+        const updatedTotalAmount = calculateTotalAmount({
+          totalAmount: totalAmount,
+          zem: Number(updatedFormData.zem),
+          humidity: Number( updatedFormData.humidity),
+          packaging: Number(updatedFormData.packaging),
+        });
+        updatedFormData.totalAmount = updatedTotalAmount;
+      }
+  
+      return updatedFormData;
+    });
+  
     // Handle customer filtering
     if (name === 'name' && value !== '') {
       const filtered = allCustomers.filter(customer =>
@@ -161,7 +158,7 @@ export default function AddPurchase ({ OnClickCancel, type, detailAmount, totalA
       )}
 <InputCmp title="Ngày xuất" name="date" value={formData.date} onChange={handleInputChange} placeholder="09/09/2024" />
 <InputCmp title="Sản phẩm xuất" type={true} name="type" value={typeof(type) == 'object'  ? type.name : type} />
-<InputCmp title="Số lượng" type={type!=="tiền"} name="totalAmount" value={formData.totalAmount} onChange={handleInputChange} placeholder={type=="tiền" ? "VND": "kg"} />
+<InputCmp title="Số lượng" type={type!=="tiền"} name="totalAmount" value={formData.totalAmount.toLocaleString('vi-VN')} onChange={handleInputChange} placeholder={type=="tiền" ? "VND": "kg"} />
 <div className="input-wrapper flex flex-row justify-between  ">
         <label className="font-bold text-2xl mb-2 mt-2 ">Tình trạng</label>
         <select className="font-semibold text-xl text-custom-red" name="status" value={formData.status} onChange={handleInputChange}>
@@ -173,8 +170,8 @@ export default function AddPurchase ({ OnClickCancel, type, detailAmount, totalA
       </div>
       <InputCmp title="Ghi chú" type={true} name="note" value={formData.note}  placeholder="ghi chú" />
 {type != "tiền" && <div>
-  <InputCmp title="Đơn giá xuất" name="unitPrice" value={formData.unitPrice} onChange={handleInputChange} placeholder="VND/kg" />
-  <InputCmp title="Tổng số tiền" type={true} name="price" value={formData.price}  placeholder="VND" />
+  <InputCmp title="Đơn giá xuất" name="unitPrice" value={formData.unitPrice.toLocaleString('vi-VN') +'VND/kg'} onChange={handleInputChange} placeholder="VND/kg" />
+  <InputCmp title="Tổng số tiền" type={true} name="price" value={formData.price.toLocaleString('vi-VN')}  placeholder="VND" />
   <InputCmp title="Độ" name="humidity" value={formData.humidity} onChange={handleInputChange} placeholder="độ" />
 <InputCmp title="Zem" name="zem" value={formData.zem} onChange={handleInputChange} placeholder="g" />
 <InputCmp title="Bì" name="packaging" value={formData.packaging} onChange={handleInputChange} placeholder="kg" /> 

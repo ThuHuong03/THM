@@ -12,9 +12,9 @@ import { FaUserPen } from 'react-icons/fa6';
         {name &&<div className='text-2xl font-bold '> Họ và tên: {invoice.customer.name|| invoice.customer._id}</div>}
         <div className='flex flex-row justify-between font-semibold mt-2 mb-2'>
             <div className='w-[20%] text-xl'> Loại: {invoice.type} </div>
-            <div className='w-[20%] text-xl'> Số lượng: {invoice.totalAmount} {invoice.type == "tiền" ? "VND": "kg"} </div>
+            <div className='w-[20%] text-xl'> Số lượng: {invoice.totalAmount.toLocaleString('vi-VN')} {invoice.type == "tiền" ? "VND": "kg"} </div>
             <div className='w-[20%] text-xl'> Tình trạng: {invoice.status=="hoàn thành"? <label className='text-accept uppercase'>đã hoàn thành</label>: invoice.status =="chưa hoàn thành" ? <label className=' uppercase text-custom-red'>chưa hoàn thành</label> :"GỬI TẠI KHO" } </div>
-            <div className='w-[20%] text-xl'> Số tiền: {invoice.price} VND </div>
+            <div className='w-[20%] text-xl'> Số tiền: {invoice.price?.toLocaleString('vi-VN')} VND </div>
         </div>
 
         <div className='text-xl font-semibold flex flex-row justify-between '> <label className='flex-1'> Ghi chú: {invoice.note}</label>  
@@ -52,9 +52,9 @@ function  PurchaseInvoiceDiv ({name, onClick, onClickEdit, onClickDelete, clickE
     {name &&<div className='text-2xl font-bold '> Họ và tên: {invoice.customer.name|| invoice.customer._id}</div>}
         <div className='flex flex-row justify-between font-semibold mt-2 mb-2'>
             <div className='w-[20%] text-xl'> Loại: {invoice.type} </div>
-            <div className='w-[20%] text-xl'> Số lượng: {invoice.totalAmount} {invoice.type == "tiền" ? "VND": "kg"} </div>
+            <div className='w-[20%] text-xl'> Số lượng: {invoice.totalAmount.toLocaleString('vi-VN')} {invoice.type == "tiền" ? "VND": "kg"} </div>
             <div className='w-[20%] text-xl'> Tình trạng: {invoice.status =="hoàn thành"? <label className='text-accept uppercase'>đã hoàn thành</label>: invoice.status =="chưa hoàn thành" ? <label className=' uppercase text-custom-red'>chưa hoàn thành</label> :"GỬI TẠI KHO" } </div>
-            <div className='w-[20%] text-xl'> Số tiền: {invoice.price} VND </div>
+            <div className='w-[20%] text-xl'> Số tiền: {invoice.price?.toLocaleString('vi-VN')} VND </div>
         </div>
 
         <div className='text-xl font-semibold flex flex-row justify-between '> <label className='flex-1'> Ghi chú: {invoice.note}</label>  
@@ -93,9 +93,9 @@ function  SaleInvoiceDiv ({name, onClick, onClickDelete, onClickEdit, invoice}){
     {name &&<div className='text-2xl font-bold '> Họ và tên: {invoice.customer.name|| invoice.customer._id}</div>}
         <div className='flex flex-row justify-between font-semibold mt-2 mb-2'>
             <div className='w-[20%] text-xl'> Loại: {invoice.type} </div>
-            <div className='w-[20%] text-xl'> Số lượng: {invoice.totalAmount} {invoice.type == "tiền" ? "VND": "kg"} </div>
+            <div className='w-[20%] text-xl'> Số lượng: {invoice.totalAmount.toLocaleString('vi-VN')} {invoice.type == "tiền" ? "VND": "kg"} </div>
             <div className='w-[20%] text-xl'> Tình trạng: {invoice.status=="đã chốt"? <label className='text-custom-red uppercase'>đã chốt</label>:  <label className='text-accept uppercase'>hoàn thành</label> } </div>
-            <div className='w-[20%] text-xl'> Số tiền: {invoice.price} VND </div>
+            <div className='w-[20%] text-xl'> Số tiền: {invoice.price?.toLocaleString('vi-VN')} VND </div>
         </div>
 
         <div className='text-xl font-semibold flex flex-row justify-between '> <label className='flex-1'> Ghi chú: {invoice.note}</label>  
