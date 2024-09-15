@@ -1,6 +1,8 @@
-import React from 'react'
+import React, { useRef } from 'react'
 import {ActivedButton, InActivedButton} from './Button'
 import { Link } from 'react-router-dom'
+import ReactToPrint from 'react-to-print';
+import MyComponent from '../page/Invoice/PDF/print';
 
 function NavBar({isActive}) {
   return (
@@ -24,7 +26,7 @@ function NavBar({isActive}) {
         }
        
        {
-            isActive==5? <ActivedButton text="Báo cáo"/> :    <InActivedButton text="Báo cáo"/>
+            isActive==5? <Link to='/baocao/khachhang'><ActivedButton text="Báo cáo"/> </Link> :   <Link to='/baocao/khachhang'><InActivedButton text="Báo cáo"/> </Link>
         }
        
     </div>
@@ -32,6 +34,8 @@ function NavBar({isActive}) {
 }
 
  function SubNavBar ({isActive}){
+  const componentRef = useRef();
+  
   return(
     <div className='flex items-center space-x-4 bg-dark-rust p-2 inline-flex rounded-lg mb-5 mt-5'>
       {
@@ -47,8 +51,38 @@ function NavBar({isActive}) {
         <Link to='/kho/quanlyphieu'>  <ActivedButton text="Quản lý phiếu xuất/ nhập kho"/> </Link>
     }
       
+
     </div>
   )
 }
 
-export { NavBar, SubNavBar}
+function SubReportNavBar ({isActive}){
+  return(
+    <div className='flex items-center space-x-4 bg-dark-rust p-2 inline-flex rounded-lg mb-5 mt-5'>
+      {
+        isActive==1? <InActivedButton text="Khách hàng"/> :
+     <Link to='/baocao/khachhang'><ActivedButton text="Khách hàng"/></Link> 
+    }
+     {
+        isActive==2? <InActivedButton text="Cà phê"/> :
+        <Link to='/baocao/caphe'>  <ActivedButton text="Cà phê"/> </Link>
+    }
+     {
+        isActive==3? <InActivedButton text="Tiêu"/> :
+        <Link to='/baocao/tieu'>  <ActivedButton text="Tiêu"/> </Link>
+    }
+    {
+        isActive==4? <InActivedButton text="Phân"/> :
+        <Link to='/baocao/phan'>  <ActivedButton text="Phân"/> </Link>
+    }
+     {
+        isActive==5? <InActivedButton text="Tiền"/> :
+        <Link to='/baocao/tien'>  <ActivedButton text="Tiền"/> </Link>
+    }
+      
+    </div>
+  )
+}
+
+
+export { NavBar, SubNavBar,SubReportNavBar}

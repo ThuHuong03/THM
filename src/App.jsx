@@ -9,12 +9,17 @@ import AgencyDetail from './page/Agency/AgencyDetail';
 import Bill from './page/Invoice/Bill/Bill';
 import Purchase from './page/Invoice/Purchase.jsx/Purchase';
 import ManageInvoice from './page/Invoice/ManageInvoice/ManageInvoice';
-
+import { AppProvider } from './context/appContext';
+import CustomerReport from './page/Report/CustomerReport';
+import CFReport from './page/Report/CFReport';
+import PepperReport from './page/Report/PepperReport';
+import FertilizerReport from './page/Report/FertilizerReport';
+import MoneyReport from './page/Report/MoneyReport';
 function App() {
   
   return (
     <div className='app-container overflow-hidden '>
-     {/* <AppProvider> */}
+     <AppProvider>
       <BrowserRouter>
         <Routes>
           <Route>
@@ -28,11 +33,16 @@ function App() {
             <Route path='/kho/xuatkho' element={<Bill/>} /> 
              <Route path='/kho/nhapkho' element={<Purchase/>} />
              <Route path='/kho/quanlyphieu' element={<ManageInvoice/>} />
+             <Route path='/baocao/khachhang' element={<CustomerReport/>} />
+             <Route path='/baocao/caphe' element={<CFReport/>} />
+             <Route path='/baocao/tieu' element={<PepperReport/>} />
+             <Route path='/baocao/phan' element={<FertilizerReport/>} />
+             <Route path='/baocao/tien' element={<MoneyReport/>} />
           </Route>
         </Routes>
       
       </BrowserRouter>
-    {/* </AppProvider> */}
+    </AppProvider>
   </div>
   );
 }

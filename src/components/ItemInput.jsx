@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { GreenButton } from './Button';
 
-export default function ItemInput() {
+export default function ItemInput({totalAmount,detailAmount, setDetailAmount, setTotalAmount, onClickFinish}) {
   const [columns, setColumns] = useState([[]]); // Array to store columns of numbers
   const [currentInput, setCurrentInput] = useState(""); // Store current input
 
@@ -14,6 +14,7 @@ export default function ItemInput() {
   const handleKeyPress = (e) => {
     if (e.key === "Enter") {
       const number = parseFloat(currentInput);
+      detailAmount.push(number);
       if (!isNaN(number)) {
         const lastColumn = columns[columns.length - 1];
 
@@ -38,6 +39,7 @@ export default function ItemInput() {
     return column.reduce((sum, num) => sum + num, 0);
   };
   const calculateTotalSum = () => {
+    setTotalAmount(columns.reduce((total, column) => total + calculateSum(column), 0))
     return columns.reduce((total, column) => total + calculateSum(column), 0);
   };
   const calculateTotalElements = () => {
@@ -83,7 +85,7 @@ export default function ItemInput() {
      
       </div>
       <div className='mt-5 flex justify-end'>
-               <GreenButton text='Hoàn thành'/>
+               <GreenButton text='Hoàn thành' onClick={onClickFinish}/>
 
       </div>
     </div>

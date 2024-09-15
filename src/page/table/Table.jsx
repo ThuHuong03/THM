@@ -1,19 +1,48 @@
-import React from "react";
+import React, { useState } from "react";
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa";
 import { FaUserPen } from "react-icons/fa6";
 import { FaTrash } from "react-icons/fa6";
-import { Link, useNavigate } from "react-router-dom";
+import {  useNavigate } from "react-router-dom";
 export default function Table({
   title,
   onClickEdit,
   onClickDelete,
-  detailPath,
+  detailPath, data, searchText,
+ 
 }) {
   const navigate = useNavigate();
-  const OnclickDetail = () => {
-    navigate(detailPath);
+  const OnclickDetail = (id) => {
+    
+    navigate(`${detailPath}/${id}`);
+  };
+  const [currentPage, setCurrentPage] = useState( 1);
+  const itemsPerPage = 10;
+
+  const totalPages = Math.ceil(data.length / itemsPerPage);
+
+  // Hàm tính toán dữ liệu cho trang hiện tại
+  const paginate = (data, currentPage, itemsPerPage) => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return data.slice(startIndex, endIndex);
+  };
+
+  const filteredData = data.filter((ele) =>
+    ele.name.toLowerCase().includes(searchText.toLowerCase().trim()) ||
+    searchText === ''
+  );
+
+  const paginatedData = paginate(filteredData, currentPage, itemsPerPage);
+
+  const handlePageChange = (newPage) => {
+    if (newPage >= 1 && newPage <= totalPages) {
+      setCurrentPage(newPage);
+ 
+    }
   };
 
   return (
+    <section>
     <section className=" antialiased  text-black rounded-xl  ml-[100px] mr-[100px] mb-5">
       <div className="flex flex-col justify-center h-full">
         <div className="w-full mx-auto bg-white shadow-lg rounded-sm border border-gray-200">
@@ -53,78 +82,43 @@ export default function Table({
                   </tr>
                 </thead>
                 <tbody className="text-sm divide-y divide-gray-100">
-                  {/* {users.map((ele, index)=> {
-                                        if(ele.name.toLowerCase().includes(searchUserText.toLowerCase().trim()) ||
-                                            ele.email.toLowerCase().includes(searchUserText.toLowerCase().trim()) ||
-                                            ele.sexuality.toLowerCase().includes(searchUserText.toLowerCase().trim()) ||
-                                            ele.phone.toLowerCase().includes(searchUserText.toLowerCase().trim()) ||
-                                            searchUserText=='')
-                                        return ( */}
-                  {/* <React.Fragment key={index}>
-                   */}
+                  {console.log("data", data)};
+                  {paginatedData.map((ele, index) => {
+                                                                      
+                                        return ( 
+                  <React.Fragment key={index}>
+                  
 
-                  <React.Fragment>
-                    <tr
-                      onClick={OnclickDetail}
-                      className="hover:bg-cream-200 cursor-pointer  active:bg-cream-400 "
-                    >
-                      <td className="p-2 whitespace-nowrap">
-                        <div className="text-xl  text-left">1</div>
-                      </td>
-                      <td className="p-2 whitespace-nowrap">
-                        <div className="text-xl  text-left">
-                          Nguyễn Thị Thu Hương
-                        </div>
-                      </td>
-                      <td cl assName="p-2 whitespace-nowrap">
-                        <div className="text-xl  text-left">Thôn 9</div>
-                      </td>
-                      <td className="p-2 whitespace-nowrap">
-                        <div className="text-xl  text-left">Bidv-982761538</div>
-                      </td>
-                      <td className="p-2 whitespace-nowrap">
-                        <div className="text-xl  text-left">0991827263</div>
-                      </td>
-                      <td className="p-2 whitespace-nowrap">
-                        <div className="text-2xl  bg-cream h-10 items-center justify-center flex w-10 rounded-lg hover:bg-cream-200 active:bg-cream-600 cursor-pointer">
-                          <FaUserPen onClick={onClickEdit} />
-                        </div>
-                      </td>
-                      <td className="p-2 whitespace-nowrap">
-                        <div className="text-2xl  bg-cream h-10 items-center justify-center flex w-10 rounded-lg  hover:bg-cream-200 active:bg-cream-600 cursor-pointer">
-                          <FaTrash onClick={onClickDelete} />
-                        </div>
-                      </td>
-                    </tr>
+        
 
                     <tr
-                      onClick={OnclickDetail}
+                      onClick={() =>OnclickDetail (ele._id)}
                       className="hover:bg-cream-200 cursor-pointer  active:bg-cream-400 "
                     >
                      
                       <td className="p-2 whitespace-nowrap">
-                        <div className="text-xl  text-left">1</div>
+                        <div className="text-xl  text-left">{index+1}</div>
                       </td>
                       <td className="p-2 whitespace-nowrap">
                         <div className="text-xl  text-left">
-                          Nguyễn Thị Thu Hương
+                          {ele.name}
                         </div>
                       </td>
                       <td cl assName="p-2 whitespace-nowrap">
-                        <div className="text-xl  text-left">Thôn 9</div>
+                        <div className="text-xl  text-left">{ele.address}</div>
                       </td>
                       <td className="p-2 whitespace-nowrap">
-                        <div className="text-xl  text-left">Bidv-982761538</div>
+                        <div className="text-xl  text-left">{ele.bankAccount}</div>
                       </td>
                       <td className="p-2 whitespace-nowrap">
-                        <div className="text-xl  text-left">0991827263</div>
+                        <div className="text-xl  text-left">{ele.phoneNumber}</div>
                       </td>
                       <td className="p-2 whitespace-nowrap">
                         <div className="text-2xl  bg-cream h-10 items-center justify-center flex w-10 rounded-lg hover:bg-dark-rust-200 active:bg-cream-600 cursor-pointer">
                           <FaUserPen
                             onClick={(e) => {
                               e.stopPropagation();
-                              onClickEdit();
+                              onClickEdit(ele);
                             }}
                           />
                         </div>
@@ -134,22 +128,40 @@ export default function Table({
                           <FaTrash
                             onClick={(e) => {
                               e.stopPropagation();
-                              onClickDelete();
+                              onClickDelete(ele);
                             }}
                           />
                         </div>
                       </td>
                     </tr>
-                  </React.Fragment>
+                  </React.Fragment>)})}
 
-                  {/* ) */}
-                  {/* })} */}
+                 
                 </tbody>
               </table>
+              <div className="flex space-x-3 ">
+    
+    </div>
             </div>
           </div>
+          
         </div>
       </div>
+      
+    </section>
+    <div className="flex justify-end w-full pr-[110px] space-x-4">
+      <div className=" items-center justify-center flex h-12 px-4 py-2 bg-custom-green text-black rounded-lg text-lg font-bold hover:bg-custom-green-200 active:bg-custom-green-600 text-black] mb-5">
+      <FaArrowLeft className="text-black" onClick={() => handlePageChange(currentPage - 1)}
+                disabled={currentPage === totalPages} />
+    </div>
+    <div  className=" items-center justify-center  flex h-12 px-4 py-2 bg-cream text-[#7C7C7C] rounded-lg text-lg font-medium  mb-5">
+     <input className="h-[90%] bg-white rounded-lg w-8 pl-1 pr-1" value={currentPage} onChange={(e)=>handlePageChange(e.target.value)}/> 
+      /{totalPages}
+    </div>
+    <div className=" items-center justify-center flex h-12 px-4 py-2 bg-custom-green text-black rounded-lg text-lg font-bold hover:bg-custom-green-200 active:bg-custom-green-600 text-black] mb-5">
+      <FaArrowRight className="text-black" onClick={() => handlePageChange(currentPage + 1)}
+                disabled={currentPage === totalPages} />
+    </div></div>
     </section>
   );
 }

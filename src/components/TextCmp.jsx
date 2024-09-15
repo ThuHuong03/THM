@@ -1,6 +1,6 @@
 import React from 'react'
 import { ActivedButton } from './Button'
-export default function TextCmp({title, text, OnClickButton}) {
+export default function TextCmp({title, text, OnClickButton, button}) {
   return (
     <div className='flex flex-row justify-between items-center'>
 
@@ -9,7 +9,7 @@ export default function TextCmp({title, text, OnClickButton}) {
         <label className=' font-semibold text-xl'>{text}</label>
     </div>
     {
-        OnClickButton&&  <ActivedButton text='Bán'/>
+        button&&  <ActivedButton text='Bán' onClick={OnClickButton}/>
     }
    
     </div>

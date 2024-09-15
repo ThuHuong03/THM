@@ -61,9 +61,8 @@ function GreenButton({text, onClick}) {
   </button>
   )
 }
-function ToggleButton() {
-  
-  const [isToggled, setIsToggled] = useState(false);
+function ToggleButton({isToggled, setIsToggled}) {
+
 
   const handleToggle = () => {
     setIsToggled(!isToggled);

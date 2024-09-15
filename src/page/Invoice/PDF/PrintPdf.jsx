@@ -1,27 +1,27 @@
 import React, { useRef } from 'react';
 import ReactToPrint from 'react-to-print';
 
-const Invoice = React.forwardRef((props, ref) => (
-  <div ref={ref} className="p-8">
-    <h1 className="text-3xl font-bold">Phiếu Xuất</h1>
-    {/* Your content here */}
-    <p>Tên khách hàng: Nguyễn Văn A</p>
-    <p>Số điện thoại: 0123456789</p>
-    <p>Địa chỉ: 123 Đường ABC, Thành phố XYZ</p>
-    {/* Add more content */}
-  </div>
-));
+class ComponentToPrint extends React.Component {
+  render() {
+    return (
+      <div>
+        <h1>Đây là nội dung để in</h1>
+        <p>In nội dung này bằng cách nhấn vào nút bên dưới.</p>
+      </div>
+    );
+  }
+}
 
-export default function InvoicePDF() {
+export default function PrintPDF() {
   const componentRef = useRef();
 
   return (
     <div>
       <ReactToPrint
-        trigger={() => <button className="btn btn-primary">Xuất PDF</button>}
+        trigger={() => <button>In nội dung</button>}
         content={() => componentRef.current}
       />
-      <Invoice ref={componentRef} />
+      <ComponentToPrint ref={componentRef} />
     </div>
   );
 }
