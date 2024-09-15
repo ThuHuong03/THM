@@ -7,5 +7,9 @@ export default defineConfig({
   server: {
     host: '0.0.0.0',
     port: 5173,
+  },
+  base: '/<THM>/', // Thay thế <repository-name> bằng tên repo của bạn
+  build: {
+    outDir: 'dist'
   }
 })
